@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/cloak_screen">
+
+    <TextView
+        android:id="@+id/q1_title_tv"
+        style="@style/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_background"
+        android:gravity="center"
+        android:text="@string/question1"
+        app:layout_constraintBottom_toTopOf="@+id/linear_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/q1_title_tv">
+
+        <TextView
+            android:id="@+id/answer_tv1"
+            style="@style/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/answer_text_background"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/q1a1" />
+
+        <TextView
+            android:id="@+id/answer_tv2"
+            style="@style/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/answer_text_background"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/q1a2" />
+
+        <TextView
+            android:id="@+id/answer_tv3"
+            style="@style/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/answer_text_background"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/q1a3" />
+
+        <TextView
+            android:id="@+id/answer_tv4"
+            style="@style/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/answer_text_background"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/q1a4" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

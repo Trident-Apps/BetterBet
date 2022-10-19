@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">BetterBet</string>
+
+    <string name="facebook_app_id">603196618096431</string>
+    <string name="facebook_client_token">0349acd063350870a5bd5a949f39ca52</string>
+
+    <string name="onesignal_id">89a005f9-1ec6-41cb-9672-5cdb98c62cf5</string>
+    <string name="apps_dev_key">RHJefKagA2JWCx28YhDvmf</string>
+    <string name="base_url">https://win4real.online/betterbet.php</string>
+    <string name="base_url_short">https://win4real.online/</string>
+
+    <string name="secure_get_parametr">wY2Kj89BxG</string>
+    <string name="secure_key">roDaFFOMqG</string>
+    <string name="dev_tmz_key">qlsY1JtbYL</string>
+    <string name="adb_key">itKODk2zdH</string>
+    <string name="referrer_key">gsH0UcqMla</string>
+    <string name="gadid_key">DiNymtUr3f</string>
+    <string name="deeplink_key">IoZRug2Gex</string>
+    <string name="source_key">H6kDyJ0hlT</string>
+    <string name="af_id_key">vJxVsphura</string>
+    <string name="adset_id_key">VzZyyWvhmD</string>
+    <string name="campaign_id_key">Ue6R6JABIp</string>
+    <string name="app_campaign_key">ruw8m2LUxH</string>
+    <string name="adset_key">CMgSHh6GwS</string>
+    <string name="adgroup_key">sIBejRBUym</string>
+    <string name="orig_cost_key">IbsysWGjea</string>
+    <string name="af_siteid_key">qvtHdYIYTa</string>
+    <string name="cloak_tv">Let\'s test your knowledge of sport</string>
+    <string name="cloak_btn">Press to Start</string>
+
+    <string name="intent_type">image/*</string>
+    <string name="chooser_title">Image Chooser</string>
+    <string name="user_agent">http.agent</string>
+    <string name="adset_id">adset_id</string>
+    <string name="campaign_id">campaign_id</string>
+    <string name="campaign">campaign</string>
+    <string name="adset">adset</string>
+    <string name="adgroup">adgroup</string>
+    <string name="orig_cost">orig_cost</string>
+    <string name="af_siteid">af_siteid</string>
+    <string name="media_source">media_source</string>
+
+    <string name="firebase_path">savedUrl</string>
+    <string name="firebase_userId">1</string>
+
+    <string name="score">score</string>
+    <string name="question1">How many players are in a basketball team?</string>
+    <string name="q1a1">5</string>
+    <string name="q1a2">10</string>
+    <string name="q1a3">12</string>
+    <string name="q1a4">2</string>
+    <string name="question2">The Olympics are held every how many years?</string>
+    <string name="q2a1">Each year</string>
+    <string name="q2a2">6 years</string>
+    <string name="q2a3">4 years</string>
+    <string name="q2a4">3 years</string>
+    <string name="question3">How long is a marathon?</string>
+    <string name="q3a2">42 kilometres</string>
+    <string name="q3a1">10 kilometres</string>
+    <string name="q3a3">21 kilometres</string>
+    <string name="q3a4">30 kilometres</string>
+    <string name="question4">Which of the following sports does not use a ball?</string>
+    <string name="q4a1">Golf</string>
+    <string name="q4a2">Tennis</string>
+    <string name="q4a3">Hockey</string>
+    <string name="q4a4">Polo</string>
+    <string name="question5">What type of race is the Tour de France?</string>
+    <string name="q5a1">Car race</string>
+    <string name="q5a2">Boat race</string>
+    <string name="q5a3">Ski race</string>
+    <string name="q5a4">Bicycle race</string>
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "342772486385",
+    "project_id": "betterbet-13f6b",
+    "storage_bucket": "betterbet-13f6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342772486385:android:847dcb39a5029483455950",
+        "android_client_info": {
+          "package_name": "com.cyberlink.photodirecto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342772486385-g0a0nrkrib175j92k0gb99hfbtcrjmjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5LmO6py2hMbFLg9y2gPrfLa35AkOFMdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342772486385-g0a0nrkrib175j92k0gb99hfbtcrjmjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
