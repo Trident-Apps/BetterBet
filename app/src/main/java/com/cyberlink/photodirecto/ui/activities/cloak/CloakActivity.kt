@@ -1,4 +1,4 @@
-package com.cyberlink.photodirecto.ui.activities.cloack
+package com.cyberlink.photodirecto.ui.activities.cloak
 
 import android.content.Intent
 import android.os.Bundle

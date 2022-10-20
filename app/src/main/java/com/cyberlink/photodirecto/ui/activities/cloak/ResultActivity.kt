@@ -1,4 +1,4 @@
-package com.cyberlink.photodirecto.ui.activities.cloack
+package com.cyberlink.photodirecto.ui.activities.cloak
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -22,10 +22,10 @@ class ResultActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun showResult(int: Int) {
-        binding.resultTv1.text = "Your score is: $int"
+        binding.resultTv1.text = "Your score is: $int/5"
 
         when (int) {
-            10 -> {
+            5 -> {
                 binding.resultTv2.text = "Your knowledge of sport is amazing!"
             }
             1 -> {

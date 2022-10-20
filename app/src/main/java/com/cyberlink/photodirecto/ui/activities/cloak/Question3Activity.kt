@@ -1,4 +1,4 @@
-package com.cyberlink.photodirecto.ui.activities.cloack
+package com.cyberlink.photodirecto.ui.activities.cloak
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,19 +6,21 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.cyberlink.photodirecto.R
-import com.cyberlink.photodirecto.databinding.Q1ActivityBinding
+import com.cyberlink.photodirecto.databinding.Q3ActivityBinding
 import kotlinx.coroutines.launch
 
-class Question1Activity : AppCompatActivity() {
-    private var _binding: Q1ActivityBinding? = null
+class Question3Activity : AppCompatActivity() {
+
+    private var _binding: Q3ActivityBinding? = null
     private val binding get() = _binding!!
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = Q1ActivityBinding.inflate(layoutInflater)
+        _binding = Q3ActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        score = intent.getIntExtra(this.getString(R.string.score), 0)
         listOf(
             binding.answerTv1,
             binding.answerTv2,
@@ -33,7 +35,7 @@ class Question1Activity : AppCompatActivity() {
 
     private fun checkAnswer(tv: TextView) {
         lifecycleScope.launch {
-            if (tv == binding.answerTv1) {
+            if (tv == binding.answerTv2) {
                 score++
             }
             nextQuestion(score)
@@ -41,10 +43,10 @@ class Question1Activity : AppCompatActivity() {
     }
 
     private fun nextQuestion(num: Int) {
-        with(Intent(this, Question2Activity::class.java)) {
-            this.putExtra(this@Question1Activity.getString(R.string.score), num)
+        with(Intent(this, Question4Activity::class.java)) {
+            this.putExtra(this@Question3Activity.getString(R.string.score), num)
             startActivity(this)
-            this@Question1Activity.finish()
+            this@Question3Activity.finish()
         }
     }
 
