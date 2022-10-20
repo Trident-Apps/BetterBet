@@ -1,5 +1,6 @@
 package com.cyberlink.photodirecto.ui.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -12,11 +13,14 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.cyberlink.photodirecto.App
 import com.cyberlink.photodirecto.R
 import com.cyberlink.photodirecto.databinding.WebViewActivityBinding
 import com.cyberlink.photodirecto.ui.activities.cloak.CloakActivity
 import com.cyberlink.photodirecto.util.CustomDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class WebActivity : AppCompatActivity() {
 
@@ -42,8 +46,9 @@ class WebActivity : AppCompatActivity() {
         webView.webViewClient = LocalClient()
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
-        webView.settings.userAgentString =
-            System.getProperty(this@WebActivity.getString(R.string.user_agent))
+//        webView.settings.userAgentString =
+//            System.getProperty(this@WebActivity.getString(R.string.user_agent))
+        webView.settings.userAgentString.replace("wv ", "")
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
         webView.settings.loadWithOverviewMode = false
@@ -90,6 +95,24 @@ class WebActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_CANCELED) {
+            message?.onReceiveValue(null)
+            return
+        } else if (resultCode == Activity.RESULT_OK) {
+            if (message == null) return
+            message!!.onReceiveValue(
+                WebChromeClient.FileChooserParams.parseResult(
+                    resultCode,
+                    data
+                )
+            )
+            message = null
+        }
+    }
+
     private fun selectImageIfNeed() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -116,10 +139,12 @@ class WebActivity : AppCompatActivity() {
                         this@WebActivity.finish()
                     }
                 } else {
-//                    val savedUrl = firebase.getData(App.adID).toString()
-//                    if (savedUrl == "null") {
-                    firebase.saveUser(App.adID, url!!, true)
-//                    }
+                    lifecycleScope.launch {
+                        val savedUrl = firebase.getData(App.adID)
+                        if (savedUrl == null) {
+                            firebase.saveUser(App.adID, url!!, true)
+                        }
+                    }
                 }
             }
         }

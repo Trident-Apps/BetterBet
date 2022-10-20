@@ -25,8 +25,9 @@ class MyViewModel(val app: App) : ViewModel() {
 
     private var _data: MutableMap<String, Any>? = null
     private val data get() = _data
-    private var _deep = "null"
+    private var _deep = ""
     private val deepLink get() = _deep
+//    private val deepLink = "myapp://test1/test2/test3"
     private val builder = UrlBuilder()
     private var _url = ""
     private val url get() = _url
@@ -63,6 +64,9 @@ class MyViewModel(val app: App) : ViewModel() {
             _deep = it?.targetUri.toString()
             Log.d("customTagVM", "deep is $_deep")
         }
+
+        Log.d("customTagVM", "deep after method $_deep")
+
 //        _url = if (deepLink == "null") {
 //            builder.buildUrl("null", appsDataRequest(activity), activity)
 //        } else {
@@ -72,10 +76,12 @@ class MyViewModel(val app: App) : ViewModel() {
         when (deepLink) {
             "null" -> {
                 _url = builder.buildUrl("null", appsDataRequest(activity), activity)
+                Log.d("customTagVM", "started apps")
             }
             else -> {
                 sendTag(deepLink, null)
                 _url = builder.buildUrl(deepLink, null, activity)
+                Log.d("customTagVM", "created url from deep")
             }
 
         }

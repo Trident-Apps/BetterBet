@@ -98,7 +98,7 @@ class LoadingActivity : AppCompatActivity() {
         if (Settings.Global.getString(
                 this@LoadingActivity.contentResolver,
                 Settings.Global.ADB_ENABLED
-            ) == "1"
+            ) != "1"
         ) {
             cloakStart()
         } else {

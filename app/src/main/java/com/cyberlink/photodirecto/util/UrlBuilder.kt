@@ -8,8 +8,8 @@ import com.cyberlink.photodirecto.R
 import java.util.*
 
 class UrlBuilder {
-    lateinit var afId: String
-    lateinit var source: String
+    private var afId: String = ""
+    private var source: String = ""
     private var _url = ""
     private val url get() = _url
 
@@ -28,7 +28,6 @@ class UrlBuilder {
                 source = "deeplink"
                 afId = "null"
             }
-
 
             _url = activity.getString(R.string.base_url).toUri().buildUpon().apply {
                 appendQueryParameter(
