@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             App.adID = AdvertisingIdClient.getAdvertisingIdInfo(this@SplashActivity).id.toString()
             OneSignal.setExternalUserId(App.adID)
-            Log.d("customTage", "onesignal Init")
+            Log.d("customTage", "onesignal Init ${App.adID}")
         }
         with(Intent(this, LoadingActivity::class.java)) {
             startActivity(this)

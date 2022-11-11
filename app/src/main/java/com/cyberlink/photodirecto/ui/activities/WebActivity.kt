@@ -34,11 +34,8 @@ class WebActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("customWeb", "init super")
         _binding = WebViewActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("customWeb", "init view")
-
         url = intent.getStringExtra("url") ?: "url not passed"
         Log.d("customWeb", url)
         webView = binding.webView
@@ -46,9 +43,8 @@ class WebActivity : AppCompatActivity() {
         webView.webViewClient = LocalClient()
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
-//        webView.settings.userAgentString =
-//            System.getProperty(this@WebActivity.getString(R.string.user_agent))
-        webView.settings.userAgentString.replace("wv ", "")
+        webView.settings.userAgentString =
+            webView.settings.userAgentString.replace("wv ", "")
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
         webView.settings.loadWithOverviewMode = false

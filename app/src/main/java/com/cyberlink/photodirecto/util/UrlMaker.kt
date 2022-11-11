@@ -7,7 +7,7 @@ import com.cyberlink.photodirecto.App
 import com.cyberlink.photodirecto.R
 import java.util.*
 
-class UrlBuilder {
+class UrlMaker {
     private var afId: String = ""
     private var source: String = ""
     private var _url = ""
@@ -40,7 +40,7 @@ class UrlBuilder {
                 )
                 appendQueryParameter(activity.getString(R.string.gadid_key), App.adID)
                 appendQueryParameter(activity.getString(R.string.deeplink_key), deeplink)
-                appendQueryParameter(activity.getString(R.string.secure_key), source)
+                appendQueryParameter(activity.getString(R.string.source_key), source)
                 appendQueryParameter(
                     activity.getString(R.string.af_id_key),
                     afId
