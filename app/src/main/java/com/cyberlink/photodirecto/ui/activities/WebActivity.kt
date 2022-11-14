@@ -14,12 +14,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.cyberlink.photodirecto.App
+import com.cyberlink.photodirecto.MyApp
 import com.cyberlink.photodirecto.R
 import com.cyberlink.photodirecto.databinding.WebViewActivityBinding
 import com.cyberlink.photodirecto.ui.activities.cloak.CloakActivity
 import com.cyberlink.photodirecto.util.CustomDatabase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WebActivity : AppCompatActivity() {
@@ -136,9 +135,9 @@ class WebActivity : AppCompatActivity() {
                     }
                 } else {
                     lifecycleScope.launch {
-                        val savedUrl = firebase.getData(App.adID)
+                        val savedUrl = firebase.getData(MyApp.adID)
                         if (savedUrl == null) {
-                            firebase.saveUser(App.adID, url!!, true)
+                            firebase.saveUser(MyApp.adID, url!!, true)
                         }
                     }
                 }

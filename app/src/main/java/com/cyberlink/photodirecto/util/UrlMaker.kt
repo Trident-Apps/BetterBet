@@ -3,7 +3,7 @@ package com.cyberlink.photodirecto.util
 import android.content.Context
 import androidx.core.net.toUri
 import com.appsflyer.AppsFlyerLib
-import com.cyberlink.photodirecto.App
+import com.cyberlink.photodirecto.MyApp
 import com.cyberlink.photodirecto.R
 import java.util.*
 
@@ -38,7 +38,7 @@ class UrlMaker {
                     activity.getString(R.string.dev_tmz_key),
                     TimeZone.getDefault().id
                 )
-                appendQueryParameter(activity.getString(R.string.gadid_key), App.adID)
+                appendQueryParameter(activity.getString(R.string.gadid_key), MyApp.adID)
                 appendQueryParameter(activity.getString(R.string.deeplink_key), deeplink)
                 appendQueryParameter(activity.getString(R.string.source_key), source)
                 appendQueryParameter(

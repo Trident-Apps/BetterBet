@@ -3,7 +3,7 @@ package com.cyberlink.photodirecto
 import android.app.Application
 import com.onesignal.OneSignal
 
-class App : Application() {
+class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         OneSignal.initWithContext(this)
